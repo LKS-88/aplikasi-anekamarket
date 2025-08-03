@@ -34,6 +34,8 @@
             overflow: hidden;
             position: relative;
             perspective: 1000px;
+            opacity: 0;
+            animation: bodyFadeIn 1.5s ease-out forwards;
         }
 
         /* Enhanced 3D Particle Background */
@@ -46,6 +48,8 @@
             z-index: 1;
             overflow: hidden;
             transform-style: preserve-3d;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
         }
 
         .particle {
@@ -99,6 +103,9 @@
             z-index: 10;
             padding: 20px;
             transform-style: preserve-3d;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: containerFadeIn 1.2s ease-out 0.3s forwards;
         }
 
         /* Luxury Logo Container */
@@ -126,14 +133,14 @@
             transform: translateZ(20px);
         }
 
-        /* Diamond Cut Glow Effect */
+        /* Diamond Cut Glow Effect - Smaller Size */
         .logo-glow {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) translateZ(0);
-            width: min(30vw, 220px);
-            height: min(30vw, 220px);
+            width: min(20vw, 150px); /* Reduced size */
+            height: min(20vw, 150px); /* Reduced size */
             border-radius: 50%;
             background: radial-gradient(
                 circle at center,
@@ -185,7 +192,7 @@
             opacity: 0.7;
         }
 
-        /* Premium Text Animation */
+        /* Premium Text Animation - Removed "PREMIUM" text */
         .text-animation {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 700;
@@ -201,20 +208,6 @@
             text-shadow: 0 0 15px rgba(105, 182, 255, 0.4);
             position: relative;
             transform: translateZ(30px);
-        }
-
-        .text-animation::after {
-            content: 'PREMIUM';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.4em;
-            font-weight: 600;
-            letter-spacing: 5px;
-            color: var(--gold);
-            opacity: 0.8;
-            text-shadow: 0 0 10px var(--gold-glow);
         }
 
         /* Luxury Progress Bar */
@@ -414,6 +407,15 @@
             to { opacity: 1; }
         }
 
+        @keyframes bodyFadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes containerFadeIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
         @keyframes subtlePulse {
             0%, 100% { transform: scale(1) rotate(0deg) translateZ(20px); }
             50% { transform: scale(1.05) rotate(1deg) translateZ(25px); }
@@ -547,10 +549,6 @@
             .loading-dot {
                 width: 12px;
                 height: 12px;
-            }
-            .text-animation::after {
-                font-size: 0.3em;
-                letter-spacing: 3px;
             }
         }
 
