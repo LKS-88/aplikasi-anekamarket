@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANEKAMARKET | Loading</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #3a7bd5;
@@ -41,38 +41,49 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
+            padding: 20px;
         }
 
         .logo-container {
             position: relative;
-            margin-bottom: 2.5rem;
+            margin-bottom: min(5vh, 40px);
             text-align: center;
         }
 
         .logo {
-            width: 10rem;
+            width: min(25vw, 180px);
             height: auto;
-            filter: drop-shadow(0 0 1rem rgba(105, 182, 255, 0.5));
-            animation: pulse 3s infinite ease-in-out;
+            filter: drop-shadow(0 0 min(1vw, 15px) rgba(100, 149, 237, 0.7));
+            animation: fadeIn 1.5s ease-out forwards;
             opacity: 0;
-            transform: translateY(20px);
         }
 
         .text-animation {
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 700;
             font-family: 'Playfair Display', serif;
             background: linear-gradient(90deg, #e6f7ff, var(--accent), #e6f7ff);
             background-size: 200% auto;
+            color: transparent;
             background-clip: text;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite, float 4s ease-in-out infinite;
-            text-shadow: 0 0 1rem rgba(105, 182, 255, 0.3);
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.2rem;
-            opacity: 0;
-            transform: translateY(20px);
+            text-shadow: 0 0 min(1vw, 10px) rgba(105, 182, 255, 0.3);
+            margin-bottom: min(3vh, 20px);
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .text-animation::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            animation: shine 2.5s infinite;
         }
 
         .loading-content {
@@ -80,27 +91,25 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 30rem;
+            max-width: 500px;
         }
 
         .progress-container {
             width: 100%;
-            height: 0.5rem;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
+            border-radius: 3px;
             overflow: hidden;
-            margin: 1.5rem 0;
+            margin: min(3vh, 30px) 0;
             position: relative;
-            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
         }
 
         .progress-bar {
             height: 100%;
             width: 0;
             background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-            border-radius: 1rem;
-            transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-            box-shadow: 0 0 1rem rgba(58, 123, 213, 0.7);
+            border-radius: 3px;
+            transition: width 0.4s ease;
             position: relative;
             overflow: hidden;
         }
@@ -110,12 +119,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.3) 50%, 
-                rgba(255,255,255,0) 100%);
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             animation: shimmer 2s infinite;
         }
 
@@ -123,65 +129,61 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
         }
 
         .percentage {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             font-weight: 600;
             color: var(--accent);
-            letter-spacing: 0.1rem;
-            min-width: 3.5rem;
-            text-align: right;
+            letter-spacing: 1px;
         }
 
         .loading-time {
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
             color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 0.05rem;
         }
 
         .loading-animation {
             display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
+            gap: min(2vw, 12px);
+            margin: min(3vh, 20px) 0;
         }
 
         .loading-dot {
-            width: 0.8rem;
-            height: 0.8rem;
+            width: min(3vw, 12px);
+            height: min(3vw, 12px);
             border-radius: 50%;
             background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 0 min(1vw, 8px) rgba(58, 123, 213, 0.7);
             animation: bounce 1.5s infinite ease-in-out;
-            box-shadow: 0 0 0.8rem rgba(58, 123, 213, 0.7);
-            transform: translateY(0);
         }
 
         .loading-dot:nth-child(1) { animation-delay: 0s; }
-        .loading-dot:nth-child(2) { animation-delay: 0.15s; }
-        .loading-dot:nth-child(3) { animation-delay: 0.3s; }
-        .loading-dot:nth-child(4) { animation-delay: 0.45s; }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        .loading-dot:nth-child(4) { animation-delay: 0.6s; }
 
         .loading-message {
-            margin-top: 1rem;
-            font-size: 0.9rem;
+            margin-top: min(2vh, 10px);
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
             color: rgba(255, 255, 255, 0.7);
             text-transform: uppercase;
-            letter-spacing: 0.2rem;
-            animation: fade 3s infinite ease-in-out;
+            letter-spacing: min(0.5vw, 3px);
             text-align: center;
-            line-height: 1.6;
+            line-height: 1.5;
+            animation: fade 3s infinite ease-in-out;
         }
 
         .copyright {
             position: absolute;
-            bottom: 2rem;
+            bottom: min(4vh, 20px);
             color: rgba(255, 255, 255, 0.4);
-            font-size: 0.8rem;
-            letter-spacing: 0.05rem;
+            font-size: clamp(0.6rem, 2.5vw, 0.8rem);
+            letter-spacing: 0.5px;
             text-align: center;
             width: 100%;
-            font-weight: 300;
+            padding: 0 20px;
         }
 
         .particles {
@@ -191,7 +193,6 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            overflow: hidden;
         }
 
         .particle {
@@ -203,54 +204,21 @@
             animation: float-particle linear infinite;
         }
 
-        .diamond {
+        .golden-line {
             position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: float 8s infinite ease-in-out, rotate 20s infinite linear;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.6), transparent);
+            animation: goldenGlow 4s infinite ease-in-out;
             z-index: -1;
         }
 
-        .completion-effect {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(105, 182, 255, 0.3) 0%, transparent 70%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0% { transform: translateY(20px) scale(1); opacity: 0; }
-            50% { transform: translateY(0) scale(1.05); opacity: 1; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         @keyframes shine {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-1rem); }
-        }
-
-        @keyframes float-particle {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(1rem); opacity: 0; }
-        }
-
-        @keyframes fade {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-1rem); }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         @keyframes shimmer {
@@ -258,31 +226,47 @@
             100% { transform: translateX(100%); }
         }
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(min(-2vh, -15px)); }
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes float-particle {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
         }
 
-        @keyframes completionPulse {
-            0% { transform: scale(1); opacity: 0; }
-            50% { transform: scale(1.5); opacity: 0.3; }
-            100% { transform: scale(2); opacity: 0; }
+        @keyframes fade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes goldenGlow {
+            0%, 100% { opacity: 0.3; width: 0; }
+            50% { opacity: 0.8; width: 100%; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .text-animation {
+                margin-bottom: min(2vh, 15px);
+            }
+            .loading-message {
+                line-height: 1.4;
+            }
         }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
-    <div class="completion-effect" id="completion-effect"></div>
     
-    <!-- Decorative diamonds -->
-    <div class="diamond" style="width: 10rem; height: 10rem; top: 10%; left: 5%;"></div>
-    <div class="diamond" style="width: 15rem; height: 15rem; bottom: 15%; right: 5%;"></div>
-    <div class="diamond" style="width: 8rem; height: 8rem; top: 60%; left: 10%;"></div>
-    <div class="diamond" style="width: 12rem; height: 12rem; bottom: 20%; left: 20%;"></div>
+    <!-- Golden decorative lines -->
+    <div class="golden-line" style="top: 15%; animation-delay: 0.5s;"></div>
+    <div class="golden-line" style="top: 30%; animation-delay: 1s;"></div>
+    <div class="golden-line" style="bottom: 25%; animation-delay: 1.5s;"></div>
+    <div class="golden-line" style="bottom: 10%; animation-delay: 2s;"></div>
     
     <div class="loading-container">
         <div class="logo-container">
@@ -309,7 +293,7 @@
             </div>
             
             <div class="loading-message">
-                LOADING PREMIUM PLATFORM COMPONENTS<br>
+                PREMIUM PLATFORM LOADING<br>
                 PREPARING YOUR EXCLUSIVE EXPERIENCE
             </div>
         </div>
@@ -323,21 +307,13 @@
     <script>
         // Initialize elements
         const logo = document.querySelector('.logo');
-        const textElement = document.querySelector('.text-animation');
         const progressBar = document.getElementById('progress-bar');
         const percentageElement = document.getElementById('percentage');
         const loadingTimeElement = document.getElementById('loading-time');
-        const completionEffect = document.getElementById('completion-effect');
-        
-        // Fade in elements
-        setTimeout(() => {
-            logo.style.animation = 'pulse 3s infinite ease-in-out, fadeIn 1.5s ease-out forwards';
-            textElement.style.animation = 'shine 4s linear infinite, float 4s ease-in-out infinite, fadeIn 1.5s ease-out forwards';
-        }, 300);
         
         // Create particles
         const particlesContainer = document.getElementById('particles');
-        const particleCount = 100;
+        const particleCount = window.innerWidth < 768 ? 60 : 100;
         
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
@@ -404,11 +380,7 @@
             
             // Special effects at 100%
             if (currentMilestone.percent === 100) {
-                progressBar.style.boxShadow = '0 0 2rem rgba(58, 123, 213, 1)';
-                completionEffect.style.animation = 'completionPulse 1s ease-out';
-                setTimeout(() => {
-                    completionEffect.style.animation = '';
-                }, 1000);
+                progressBar.style.boxShadow = `0 0 min(1vw, 15px) rgba(58, 123, 213, 0.9)`;
                 
                 // Final redirect after 2 seconds at 100%
                 if (elapsed >= loadingDuration) {
@@ -432,16 +404,6 @@
         setTimeout(() => {
             requestAnimationFrame(updateLoading);
         }, 500);
-        
-        // Text animation - letter by letter
-        const text = 'ANEKAMARKET';
-        textElement.textContent = '';
-        
-        for (let i = 0; i < text.length; i++) {
-            setTimeout(() => {
-                textElement.textContent += text[i];
-            }, i * 150);
-        }
     </script>
 </body>
 </html>
