@@ -18,6 +18,7 @@
             --gold-glow: rgba(255, 215, 0, 0.5);
             --platinum: #e5e4e2;
             --diamond: #b9f2ff;
+            --lightning: #00f2ff;
         }
 
         * {
@@ -139,8 +140,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) translateZ(0);
-            width: min(20vw, 150px); /* Reduced size */
-            height: min(20vw, 150px); /* Reduced size */
+            width: min(20vw, 150px);
+            height: min(20vw, 150px);
             border-radius: 50%;
             background: radial-gradient(
                 circle at center,
@@ -192,7 +193,43 @@
             opacity: 0.7;
         }
 
-        /* Premium Text Animation - Removed "PREMIUM" text */
+        /* Cakra Petir Effect */
+        .lightning-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(30vw, 220px);
+            height: min(30vw, 220px);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .lightning {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 40%, rgba(0, 242, 255, 0.1) 70%, transparent 90%);
+            animation: lightningPulse 4s infinite;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+        }
+
+        .lightning-spike {
+            position: absolute;
+            width: 2px;
+            height: 30%;
+            background: linear-gradient(to bottom, transparent, var(--lightning), transparent);
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            box-shadow: 0 0 10px var(--lightning);
+            opacity: 0;
+        }
+
+        /* Premium Text Animation */
         .text-animation {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 700;
@@ -518,6 +555,24 @@
             100% { transform: translateX(100%); }
         }
 
+        /* Lightning Effect Animations */
+        @keyframes lightningPulse {
+            0%, 100% { opacity: 0; transform: scale(0.9); }
+            50% { opacity: 0.3; transform: scale(1); }
+        }
+
+        @keyframes lightningStrike {
+            0% { opacity: 0; transform: scale(0.5); }
+            10% { opacity: 1; transform: scale(1.1); }
+            20% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+
+        @keyframes lightningSpike {
+            0%, 100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--rotation)) scaleY(0); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) rotate(var(--rotation)) scaleY(1); }
+        }
+
         .fade-out {
             animation: fadeOut 0.8s ease-out forwards;
         }
@@ -591,6 +646,11 @@
     <div class="parallax-layer" style="z-index: 2;"></div>
     <div class="parallax-layer" style="z-index: 3;"></div>
     
+    <!-- Lightning Circle Effect -->
+    <div class="lightning-circle" id="lightning-circle">
+        <div class="lightning"></div>
+    </div>
+    
     <!-- Premium Cursor -->
     <div class="premium-cursor" id="cursor"></div>
     <div class="cursor-trail" id="cursor-trail"></div>
@@ -642,6 +702,21 @@
         const particlesContainer = document.getElementById('particles');
         const cursor = document.getElementById('cursor');
         const cursorTrail = document.getElementById('cursor-trail');
+        const lightningCircle = document.getElementById('lightning-circle');
+
+        // Create lightning spikes
+        function createLightningSpikes() {
+            const spikesCount = 12;
+            for (let i = 0; i < spikesCount; i++) {
+                const spike = document.createElement('div');
+                spike.classList.add('lightning-spike');
+                const rotation = (360 / spikesCount) * i;
+                spike.style.setProperty('--rotation', `${rotation}deg`);
+                spike.style.animation = `lightningSpike ${Math.random() * 2 + 2}s infinite ${Math.random() * 2}s`;
+                lightningCircle.appendChild(spike);
+            }
+            lightningCircle.style.opacity = '1';
+        }
 
         // Create particles with more variety
         function createParticles() {
@@ -788,12 +863,20 @@
                 // Enhanced effects at different percentages
                 if (currentMilestone.percent > 50) {
                     progressBar.style.boxShadow = `0 0 20px rgba(0, 210, 255, 0.7)`;
+                    // Trigger lightning effect at 50%
+                    if (currentMilestone.percent === 50) {
+                        triggerLightningEffect();
+                    }
                 }
                 if (currentMilestone.percent > 80) {
                     progressBar.style.boxShadow = `0 0 25px rgba(255, 215, 0, 0.8)`;
                     document.querySelectorAll('.loading-dot').forEach(dot => {
                         dot.style.boxShadow = `0 0 15px rgba(255, 215, 0, 0.9)`;
                     });
+                    // Trigger lightning effect at 80%
+                    if (currentMilestone.percent === 80) {
+                        triggerLightningEffect();
+                    }
                 }
                 
                 // Handle completion - with EXACT 2 second delay at 100%
@@ -819,6 +902,11 @@
                             // Pulse effect during countdown
                             const pulseIntensity = Math.sin(Date.now() / 200) * 0.1 + 1;
                             document.querySelector('.logo').style.transform = `scale(${pulseIntensity}) translateZ(20px)`;
+                            
+                            // Final lightning effect
+                            if (remaining < 1.5 && !document.querySelector('.final-lightning')) {
+                                triggerFinalLightningEffect();
+                            }
                         }
                     }
                 }
@@ -831,12 +919,43 @@
             requestAnimationFrame(update);
         }
 
+        // Lightning effect functions
+        function triggerLightningEffect() {
+            const lightning = document.createElement('div');
+            lightning.classList.add('lightning');
+            lightning.style.animation = 'lightningStrike 0.5s';
+            lightning.style.opacity = '0';
+            lightningCircle.appendChild(lightning);
+            
+            setTimeout(() => {
+                lightning.remove();
+            }, 1000);
+        }
+
+        function triggerFinalLightningEffect() {
+            const finalLightning = document.createElement('div');
+            finalLightning.classList.add('lightning', 'final-lightning');
+            finalLightning.style.width = '150%';
+            finalLightning.style.height = '150%';
+            finalLightning.style.background = 'radial-gradient(circle, rgba(0, 242, 255, 0.8) 0%, transparent 70%)';
+            finalLightning.style.animation = 'lightningStrike 1s';
+            finalLightning.style.boxShadow = '0 0 50px rgba(0, 242, 255, 0.8)';
+            lightningCircle.appendChild(finalLightning);
+            
+            setTimeout(() => {
+                finalLightning.remove();
+            }, 1500);
+        }
+
         // Preload logo image
         const logoImage = new Image();
         logoImage.src = 'https://raw.githubusercontent.com/LKS-88/aplikasi-anekamarket/refs/heads/main/LOGO%20ANEKAMARKET.png';
         logoImage.onload = () => {
             // Start animation after logo is loaded
-            setTimeout(startLoadingAnimation, 300);
+            setTimeout(() => {
+                createLightningSpikes();
+                startLoadingAnimation();
+            }, 300);
         };
 
         // Initialize
