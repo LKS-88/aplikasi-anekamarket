@@ -70,7 +70,7 @@
             animation-name: float-blue;
         }
 
-        /* Your Original Loading Container - Preserved */
+        /* Your Original Loading Container */
         .loading-container {
             position: absolute;
             top: 0;
@@ -108,7 +108,7 @@
             z-index: 2;
         }
 
-        /* New Elegant Glow Effect */
+        /* Elegant Glow Effect */
         .logo-glow {
             position: absolute;
             top: 50%;
@@ -143,7 +143,7 @@
             animation: pulseGlow 3s infinite ease-in-out reverse;
         }
 
-        /* Your Original Text Animation - Preserved */
+        /* Your Original Text Animation */
         .text-animation {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 700;
@@ -159,7 +159,7 @@
             text-shadow: 0 0 10px rgba(105, 182, 255, 0.3);
         }
 
-        /* Rest of your original styles preserved exactly */
+        /* Rest of your original styles */
         .loading-content {
             display: flex;
             flex-direction: column;
@@ -265,7 +265,7 @@
             padding: 0 20px;
         }
 
-        /* Your Original Animations - Preserved */
+        /* Your Original Animations */
         @keyframes fadeIn {
             to { opacity: 1; }
         }
@@ -300,7 +300,7 @@
             50% { opacity: 1; }
         }
 
-        /* New Animations for Enhanced Effects */
+        /* New Animations */
         @keyframes float-gold {
             0% {
                 transform: translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh));
@@ -366,10 +366,9 @@
     <!-- Particle Background -->
     <div class="particles" id="particles"></div>
     
-    <!-- Your Original Loading Container - Enhanced -->
+    <!-- Loading Container -->
     <div class="loading-container" id="loading-container">
         <div class="logo-container">
-            <!-- New Elegant Glow Effect -->
             <div class="logo-glow"></div>
             <img src="https://raw.githubusercontent.com/LKS-88/aplikasi-anekamarket/refs/heads/main/LOGO%20ANEKAMARKET.png" alt="ANEKAMARKET Logo" class="logo">
         </div>
@@ -413,7 +412,7 @@
         const loadingTimeElement = document.getElementById('loading-time');
         const particlesContainer = document.getElementById('particles');
 
-        // Create particles with dynamic movement
+        // Create particles
         function createParticles() {
             particlesContainer.innerHTML = '';
 
@@ -459,7 +458,7 @@
             particlesContainer.appendChild(particle);
         }
 
-        // Your Original Loading Animation - Preserved
+        // Loading animation with EXACT 2-second delay after 100%
         const milestones = [
             { time: 800, percent: 5, message: "Starting systems..." },
             { time: 2000, percent: 20, message: "Loading core modules..." },
@@ -468,18 +467,19 @@
             { time: 6500, percent: 65, message: "Optimizing performance..." },
             { time: 8000, percent: 80, message: "Finalizing components..." },
             { time: 9500, percent: 95, message: "Almost ready..." },
-            { time: 11000, percent: 100, message: "Launching application..." }
+            { time: 10000, percent: 100, message: "Ready to launch..." } // Changed to reach 100% at 10s
         ];
         
         function startLoadingAnimation() {
             const startTime = Date.now();
-            const totalDuration = 12000;
+            const totalDuration = 12000; // 12 seconds total (10s loading + 2s delay)
             let redirecting = false;
             
             function update() {
                 const elapsed = Date.now() - startTime;
                 const progress = Math.min(elapsed / totalDuration, 1);
                 
+                // Find current milestone
                 let currentMilestone = milestones[milestones.length - 1];
                 for (const milestone of milestones) {
                     if (elapsed >= milestone.time) {
@@ -489,24 +489,30 @@
                     }
                 }
                 
+                // Update UI
                 progressBar.style.width = `${currentMilestone.percent}%`;
                 percentageElement.textContent = `${currentMilestone.percent}%`;
                 loadingTimeElement.textContent = currentMilestone.message;
                 
+                // Special effects at high percentages
                 if (currentMilestone.percent > 80) {
                     progressBar.style.boxShadow = `0 0 15px rgba(58, 123, 213, 0.8)`;
                 }
                 
+                // Handle completion - with EXACT 2 second delay at 100%
                 if (currentMilestone.percent === 100 && !redirecting) {
-                    if (elapsed >= totalDuration - 800) {
-                        redirecting = true;
-                        loadingContainer.classList.add('fade-out');
-                        setTimeout(() => {
-                            window.location.href = 'https://lks-88.github.io/transaksi/';
-                        }, 800);
-                    } else {
-                        const remaining = (totalDuration - elapsed) / 1000;
-                        loadingTimeElement.textContent = `Launching in ${remaining.toFixed(1)}s...`;
+                    if (elapsed >= 10000) { // After reaching 100% at 10s
+                        if (elapsed >= totalDuration - 800) { // At 11.2s (after 2s delay)
+                            redirecting = true;
+                            loadingContainer.classList.add('fade-out');
+                            setTimeout(() => {
+                                window.location.href = 'https://lks-88.github.io/transaksi/';
+                            }, 800);
+                        } else {
+                            // Show countdown during the 2s delay
+                            const remaining = (totalDuration - elapsed) / 1000;
+                            loadingTimeElement.textContent = `Launching in ${remaining.toFixed(1)}s...`;
+                        }
                     }
                 }
                 
