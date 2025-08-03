@@ -33,7 +33,44 @@
             position: relative;
         }
 
-        /* Your original loading container - completely preserved */
+        /* PARTIKEL BACKGROUND TANPA MENGANGGU ELEMEN LAIN */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        .gold-particle {
+            background: var(--gold-light);
+            filter: blur(0.8px);
+            box-shadow: 
+                0 0 5px var(--gold-glow),
+                0 0 10px var(--gold-glow);
+            animation-name: float-gold;
+        }
+
+        .blue-particle {
+            background: var(--accent);
+            filter: blur(0.5px);
+            box-shadow: 
+                0 0 5px rgba(105, 182, 255, 0.7),
+                0 0 10px rgba(105, 182, 255, 0.5);
+            animation-name: float-blue;
+        }
+
+        /* ANIMASI LOADING ASLI ANDA - TIDAK DIUBAH */
         .loading-container {
             position: absolute;
             top: 0;
@@ -188,44 +225,7 @@
             padding: 0 20px;
         }
 
-        /* New Premium Particle System - Added BELOW your existing styles */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
-        }
-
-        .gold-particle {
-            background: var(--gold-light);
-            filter: blur(0.8px);
-            box-shadow: 
-                0 0 10px var(--gold-glow),
-                0 0 20px var(--gold-glow);
-            animation-name: float-gold;
-        }
-
-        .blue-particle {
-            background: var(--accent);
-            filter: blur(0.5px);
-            box-shadow: 
-                0 0 10px rgba(105, 182, 255, 0.8),
-                0 0 20px rgba(105, 182, 255, 0.5);
-            animation-name: float-blue;
-        }
-
-        /* Your original animations - completely preserved */
+        /* ANIMASI ASLI ANDA - TIDAK DIUBAH */
         @keyframes fadeIn {
             to { opacity: 1; }
         }
@@ -260,16 +260,16 @@
             50% { opacity: 1; }
         }
 
-        /* New particle animations - Added BELOW your existing animations */
+        /* ANIMASI PARTIKEL BARU - DITAMBAHKAN SETELAH ANIMASI ANDA */
         @keyframes float-gold {
             0% {
                 transform: translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh));
                 opacity: 0;
             }
-            20% {
+            10% {
                 opacity: var(--opacity);
             }
-            80% {
+            90% {
                 opacity: var(--opacity);
             }
             100% {
@@ -283,10 +283,10 @@
                 transform: translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh));
                 opacity: 0;
             }
-            15% {
+            20% {
                 opacity: var(--opacity);
             }
-            85% {
+            80% {
                 opacity: var(--opacity);
             }
             100% {
@@ -306,7 +306,6 @@
             }
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .progress-container {
                 height: 6px;
@@ -319,10 +318,10 @@
     </style>
 </head>
 <body>
-    <!-- New particle container - Added BEFORE your loading container -->
+    <!-- ELEMEN PARTIKEL BARU - DITAMBAHKAN SEBELUM CONTENT ANDA -->
     <div class="particles" id="particles"></div>
     
-    <!-- Your original loading container - completely unchanged -->
+    <!-- LOADING CONTAINER ASLI ANDA - TIDAK DIUBAH -->
     <div class="loading-container" id="loading-container">
         <div class="logo-container">
             <img src="https://raw.githubusercontent.com/LKS-88/aplikasi-anekamarket/refs/heads/main/LOGO%20ANEKAMARKET.png" alt="ANEKAMARKET Logo" class="logo">
@@ -360,31 +359,24 @@
     </div>
 
     <script>
-        // Initialize elements
+        // INISIALISASI ELEMEN - DITAMBAHKAN SETELAH YANG SUDAH ADA
         const loadingContainer = document.getElementById('loading-container');
         const progressBar = document.getElementById('progress-bar');
         const percentageElement = document.getElementById('percentage');
         const loadingTimeElement = document.getElementById('loading-time');
         const particlesContainer = document.getElementById('particles');
 
-        // Create particles with dynamic movement
+        // FUNGSI PARTIKEL BARU - TANPA MENGUBAH YANG SUDAH ADA
         function createParticles() {
-            // Clear existing particles
             particlesContainer.innerHTML = '';
 
-            // Calculate particle count based on screen size
             const particleCount = Math.min(
                 Math.floor((window.innerWidth * window.innerHeight) / 2000),
                 150
             );
 
-            // Create gold particles
             for (let i = 0; i < particleCount; i++) {
                 createParticle('gold', i);
-            }
-
-            // Create blue particles
-            for (let i = 0; i < particleCount; i++) {
                 createParticle('blue', i);
             }
         }
@@ -393,33 +385,20 @@
             const particle = document.createElement('div');
             particle.classList.add('particle', `${type}-particle`);
 
-            // Size and appearance
-            const size = type === 'gold' 
-                ? Math.random() * 5 + 3 
-                : Math.random() * 4 + 2;
-            
+            const size = type === 'gold' ? Math.random() * 4 + 2 : Math.random() * 3 + 1;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             
-            if (type === 'gold') {
-                const opacity = Math.random() * 0.5 + 0.3;
-                particle.style.opacity = opacity;
-                particle.style.setProperty('--opacity', opacity);
-            } else {
-                particle.style.opacity = Math.random() * 0.4 + 0.2;
-            }
+            const opacity = type === 'gold' ? Math.random() * 0.5 + 0.3 : Math.random() * 0.4 + 0.2;
+            particle.style.opacity = opacity;
+            particle.style.setProperty('--opacity', opacity);
 
-            // Animation properties
-            const duration = type === 'gold' 
-                ? Math.random() * 20 + 20 
-                : Math.random() * 25 + 20;
-            
+            const duration = type === 'gold' ? Math.random() * 20 + 20 : Math.random() * 25 + 20;
             const delay = Math.random() * 10;
             
-            // Random movement paths
             const startX = Math.random() * 100;
             const startY = type === 'gold' ? 100 + Math.random() * 10 : Math.random() * 120 - 10;
-            const endX = startX + (Math.random() * 60 - 30);
+            const endX = startX + (Math.random() * 40 - 20);
             const endY = type === 'gold' ? -10 : Math.random() * 120 - 10;
             
             particle.style.setProperty('--start-x', startX);
@@ -433,7 +412,7 @@
             particlesContainer.appendChild(particle);
         }
 
-        // Your original loading animation - completely unchanged
+        // LOADING ANIMATION ASLI ANDA - TIDAK DIUBAH
         const milestones = [
             { time: 800, percent: 5, message: "Starting systems..." },
             { time: 2000, percent: 20, message: "Loading core modules..." },
@@ -447,14 +426,13 @@
         
         function startLoadingAnimation() {
             const startTime = Date.now();
-            const totalDuration = 12000; // 12 seconds total
+            const totalDuration = 12000;
             let redirecting = false;
             
             function update() {
                 const elapsed = Date.now() - startTime;
                 const progress = Math.min(elapsed / totalDuration, 1);
                 
-                // Find current milestone
                 let currentMilestone = milestones[milestones.length - 1];
                 for (const milestone of milestones) {
                     if (elapsed >= milestone.time) {
@@ -464,17 +442,14 @@
                     }
                 }
                 
-                // Update UI
                 progressBar.style.width = `${currentMilestone.percent}%`;
                 percentageElement.textContent = `${currentMilestone.percent}%`;
                 loadingTimeElement.textContent = currentMilestone.message;
                 
-                // Special effects at high percentages
                 if (currentMilestone.percent > 80) {
                     progressBar.style.boxShadow = `0 0 15px rgba(58, 123, 213, 0.8)`;
                 }
                 
-                // Handle completion
                 if (currentMilestone.percent === 100 && !redirecting) {
                     if (elapsed >= totalDuration - 800) {
                         redirecting = true;
@@ -496,16 +471,14 @@
             requestAnimationFrame(update);
         }
 
-        // Initialize - added particles AFTER your original initialization
+        // INISIALISASI - DITAMBAHKAN SETELAH YANG SUDAH ADA
         createParticles();
         setTimeout(startLoadingAnimation, 500);
         
-        // Handle window resize
         window.addEventListener('resize', () => {
             createParticles();
         });
 
-        // Preload logo image
         const logoImage = new Image();
         logoImage.src = 'https://raw.githubusercontent.com/LKS-88/aplikasi-anekamarket/refs/heads/main/LOGO%20ANEKAMARKET.png';
     </script>
