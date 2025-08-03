@@ -38,10 +38,9 @@
             opacity: 0;
             animation: bodyFadeIn 1.5s ease-out forwards;
             touch-action: manipulation;
-            overscroll-behavior: contain;
         }
 
-        /* Simplified Particle Background */
+        /* Particle Background - Optimized */
         .particles {
             position: absolute;
             top: 0;
@@ -60,20 +59,23 @@
             pointer-events: none;
             animation-timing-function: ease-in-out;
             animation-iteration-count: infinite;
-            will-change: transform;
         }
 
         .gold-particle {
             background: var(--gold-light);
+            filter: blur(0.8px);
+            box-shadow: 0 0 8px var(--gold-glow);
             animation-name: float-gold;
         }
 
         .blue-particle {
             background: var(--accent);
+            filter: blur(0.5px);
+            box-shadow: 0 0 8px rgba(105, 182, 255, 0.5);
             animation-name: float-blue;
         }
 
-        /* Premium Loading Container - Optimized for Mobile */
+        /* Premium Loading Container */
         .loading-container {
             position: absolute;
             top: 0;
@@ -85,13 +87,13 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
-            padding: 15px;
+            padding: 20px;
             opacity: 0;
             transform: scale(0.95);
             animation: containerFadeIn 1.2s ease-out 0.3s forwards;
         }
 
-        /* Simplified Logo Container */
+        /* Logo Animation - Preserved */
         .logo-container {
             position: relative;
             margin-bottom: 20px;
@@ -103,11 +105,12 @@
             width: 120px;
             height: auto;
             filter: drop-shadow(0 0 10px rgba(100, 149, 237, 0.7));
-            animation: fadeIn 1.5s ease-out forwards;
+            animation: 
+                fadeIn 1.5s ease-out forwards,
+                subtlePulse 4s ease-in-out infinite;
             opacity: 0;
         }
 
-        /* Simplified Glow Effect */
         .logo-glow {
             position: absolute;
             top: 50%;
@@ -119,29 +122,31 @@
             background: radial-gradient(
                 circle at center,
                 rgba(255, 215, 0, 0.3) 0%,
+                rgba(185, 242, 255, 0.2) 40%,
                 transparent 70%
             );
             animation: pulseGlow 3s infinite ease-in-out;
             z-index: -1;
         }
 
-        /* Optimized Text Animation */
+        /* Text Animation - Preserved */
         .text-animation {
             font-size: 2rem;
             font-weight: 700;
             font-family: 'Playfair Display', serif;
             margin-bottom: 15px;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, var(--gold), var(--accent), var(--gold));
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--diamond), var(--accent), var(--gold));
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: shine 3s linear infinite;
+            text-shadow: 0 0 10px rgba(105, 182, 255, 0.3);
             text-align: center;
         }
 
-        /* Simplified Progress Bar */
+        /* Progress Bar - Optimized */
         .progress-container {
             width: 90%;
             max-width: 400px;
@@ -150,6 +155,7 @@
             border-radius: 3px;
             overflow: hidden;
             margin: 15px 0;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         .progress-bar {
@@ -159,6 +165,7 @@
             border-radius: 3px;
             transition: width 0.4s ease;
             position: relative;
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
         }
 
         .progress-info {
@@ -173,6 +180,7 @@
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--gold);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
 
         .loading-time {
@@ -181,7 +189,7 @@
             font-weight: 300;
         }
 
-        /* Simplified Loading Animation */
+        /* Loading Dots - Preserved */
         .loading-animation {
             display: flex;
             gap: 8px;
@@ -192,7 +200,8 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold), var(--diamond));
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
             animation: bounce 1.5s infinite ease-in-out;
         }
 
@@ -210,7 +219,7 @@
             letter-spacing: 1px;
             text-align: center;
             line-height: 1.6;
-            font-weight: 300;
+            animation: fade 3s infinite ease-in-out;
         }
 
         /* Copyright */
@@ -224,7 +233,7 @@
             padding: 0 15px;
         }
 
-        /* Simplified Animations */
+        /* Animations - Optimized */
         @keyframes fadeIn {
             to { opacity: 1; }
         }
@@ -243,6 +252,11 @@
             50% { transform: translateY(-10px); }
         }
 
+        @keyframes subtlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         @keyframes shine {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
@@ -254,18 +268,23 @@
         }
 
         @keyframes float-gold {
-            0%, 100% { transform: translate(0, 0); opacity: 0; }
-            50% { transform: translate(20px, 20px); opacity: 0.6; }
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(20px, 20px) scale(1.1); opacity: 0.8; }
         }
 
         @keyframes float-blue {
-            0%, 100% { transform: translate(0, 0); opacity: 0; }
-            50% { transform: translate(-15px, 15px); opacity: 0.5; }
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(-15px, 15px) scale(1.1); opacity: 0.7; }
         }
 
         @keyframes pulseGlow {
             0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes fade {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .fade-out {
@@ -279,7 +298,7 @@
             }
         }
 
-        /* Mobile Optimizations */
+        /* Desktop Enhancements */
         @media (min-width: 768px) {
             .logo {
                 width: 150px;
@@ -291,25 +310,33 @@
             }
             
             .text-animation {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
             
             .progress-container {
                 height: 8px;
             }
+            
+            .loading-dot {
+                width: 12px;
+                height: 12px;
+            }
         }
 
-        /* Disable animations when reduced motion is preferred */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
+        /* Performance Optimization */
+        @media (max-width: 480px) {
+            .particle {
+                animation-duration: 20s !important;
+            }
+            
+            .loading-dot {
+                animation-duration: 2s !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Simplified Particle Background -->
+    <!-- Particle Background -->
     <div class="particles" id="particles"></div>
     
     <!-- Loading Container -->
@@ -351,7 +378,6 @@
     </div>
 
     <script>
-        // Optimized JavaScript for mobile
         document.addEventListener('DOMContentLoaded', function() {
             const loadingContainer = document.getElementById('loading-container');
             const progressBar = document.getElementById('progress-bar');
@@ -359,20 +385,20 @@
             const loadingTimeElement = document.getElementById('loading-time');
             const particlesContainer = document.getElementById('particles');
             
-            // Simplified particle creation
+            // Optimized particle creation
             function createParticles() {
                 particlesContainer.innerHTML = '';
                 
-                // Reduced particle count for mobile
-                const particleCount = window.innerWidth < 768 ? 30 : 60;
+                // Adjusted particle count based on device
+                const particleCount = window.innerWidth < 768 ? 40 : 80;
                 
                 for (let i = 0; i < particleCount; i++) {
-                    createParticle('gold');
-                    createParticle('blue');
+                    createParticle('gold', i);
+                    createParticle('blue', i);
                 }
             }
             
-            function createParticle(type) {
+            function createParticle(type, index) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle', `${type}-particle`);
                 
@@ -383,21 +409,22 @@
                 particle.style.left = `${Math.random() * 100}vw`;
                 particle.style.top = `${Math.random() * 100}vh`;
                 
-                const duration = Math.random() * 15 + 10;
+                const duration = (Math.random() * 15 + 10) * (window.innerWidth < 480 ? 1.5 : 1);
                 particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
                 
                 particlesContainer.appendChild(particle);
             }
             
-            // Optimized loading animation
+            // Loading animation with preserved effects
             function startLoadingAnimation() {
                 const milestones = [
-                    { time: 800, percent: 5, message: "Starting systems..." },
-                    { time: 2000, percent: 20, message: "Loading modules..." },
-                    { time: 3500, percent: 35, message: "Initializing database..." },
+                    { time: 800, percent: 5, message: "Starting premium systems..." },
+                    { time: 2000, percent: 20, message: "Loading luxury modules..." },
+                    { time: 3500, percent: 35, message: "Initializing secure database..." },
                     { time: 5000, percent: 50, message: "Halfway there..." },
-                    { time: 6500, percent: 65, message: "Optimizing..." },
-                    { time: 8000, percent: 80, message: "Finalizing..." },
+                    { time: 6500, percent: 65, message: "Optimizing performance..." },
+                    { time: 8000, percent: 80, message: "Finalizing components..." },
                     { time: 9500, percent: 95, message: "Almost ready..." },
                     { time: 10000, percent: 100, message: "Ready to launch..." }
                 ];
@@ -423,6 +450,14 @@
                     progressBar.style.width = `${currentMilestone.percent}%`;
                     percentageElement.textContent = `${currentMilestone.percent}%`;
                     loadingTimeElement.textContent = currentMilestone.message;
+                    
+                    // Enhanced effects at different percentages
+                    if (currentMilestone.percent > 50) {
+                        progressBar.style.boxShadow = `0 0 10px rgba(0, 210, 255, 0.6)`;
+                    }
+                    if (currentMilestone.percent > 80) {
+                        progressBar.style.boxShadow = `0 0 15px rgba(255, 215, 0, 0.7)`;
+                    }
                     
                     // Handle completion
                     if (currentMilestone.percent === 100) {
@@ -453,11 +488,13 @@
                 setTimeout(startLoadingAnimation, 300);
             };
             
-            // Handle resize
+            // Handle resize with debounce
             let resizeTimeout;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(createParticles, 200);
+                resizeTimeout = setTimeout(() => {
+                    createParticles();
+                }, 200);
             });
         });
     </script>
