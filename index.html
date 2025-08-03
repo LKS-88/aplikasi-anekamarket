@@ -882,25 +882,6 @@
                 });
             }
             
-            // Parallax effect - only on desktop
-            if (!isMobile) {
-                const parallaxLayers = document.querySelectorAll('.parallax-layer');
-                
-                function updateParallax() {
-                    const x = mouseX / window.innerWidth - 0.5;
-                    const y = mouseY / window.innerHeight - 0.5;
-                    
-                    parallaxLayers.forEach((layer, index) => {
-                        const factor = (index + 1) * 0.02;
-                        layer.style.transform = `translate(${x * factor * 100}px, ${y * factor * 100}px)`;
-                    });
-                    
-                    requestAnimationFrame(updateParallax);
-                }
-                
-                updateParallax();
-            }
-            
             // Loading animation with enhanced effects
             const milestones = [
                 { time: 800, percent: 5, message: "Starting premium systems..." },
