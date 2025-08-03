@@ -16,6 +16,9 @@
             --gold: #FFD700;
             --gold-light: rgba(255, 215, 0, 0.7);
             --gold-glow: rgba(255, 215, 0, 0.5);
+            --platinum: #e5e4e2;
+            --diamond: #b9f2ff;
+            --ruby: #e0115f;
         }
 
         * {
@@ -47,6 +50,7 @@
             padding: 20px;
         }
 
+        /* Your existing loading content styles */
         .logo-container {
             position: relative;
             margin-bottom: min(5vh, 40px);
@@ -59,7 +63,8 @@
             height: auto;
             filter: 
                 drop-shadow(0 0 10px rgba(100, 149, 237, 0.5))
-                drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+                drop-shadow(0 0 20px rgba(255, 215, 0, 0.3))
+                drop-shadow(0 0 30px rgba(105, 182, 255, 0.2));
             animation: 
                 fadeIn 1.5s ease-out forwards,
                 subtlePulse 4s ease-in-out infinite;
@@ -82,112 +87,7 @@
             text-shadow: 0 0 10px rgba(105, 182, 255, 0.3);
         }
 
-        .loading-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: min(3vh, 30px) 0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            border-radius: 4px;
-            transition: width 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.6), 
-                transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .percentage {
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            font-weight: 600;
-            color: var(--accent);
-            text-shadow: 0 0 5px rgba(105, 182, 255, 0.5);
-        }
-
-        .loading-time {
-            font-size: clamp(0.8rem, 3vw, 0.9rem);
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .loading-animation {
-            display: flex;
-            gap: min(2vw, 12px);
-            margin: min(3vh, 20px) 0;
-        }
-
-        .loading-dot {
-            width: min(3vw, 12px);
-            height: min(3vw, 12px);
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            box-shadow: 
-                0 0 5px rgba(0, 210, 255, 0.7),
-                0 0 10px rgba(58, 123, 213, 0.5);
-            animation: bounce 1.5s infinite ease-in-out;
-        }
-
-        .loading-dot:nth-child(1) { animation-delay: 0s; }
-        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
-        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
-        .loading-dot:nth-child(4) { animation-delay: 0.6s; }
-
-        .loading-message {
-            margin-top: min(2vh, 15px);
-            font-size: clamp(0.7rem, 3vw, 0.9rem);
-            color: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            line-height: 1.5;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-            animation: fade 3s infinite ease-in-out;
-        }
-
-        .copyright {
-            position: absolute;
-            bottom: min(4vh, 20px);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: clamp(0.6rem, 2.5vw, 0.8rem);
-            width: 100%;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        /* Particle System */
+        /* Enhanced Particle System */
         .particles {
             position: absolute;
             top: 0;
@@ -202,104 +102,190 @@
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
-            animation-timing-function: linear;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             animation-iteration-count: infinite;
+            will-change: transform, opacity;
         }
 
         .gold-particle {
-            background: var(--gold-light);
+            background: radial-gradient(circle at 30% 30%, var(--gold-light), transparent 70%);
             filter: blur(0.8px);
             box-shadow: 
-                0 0 5px var(--gold-glow),
-                0 0 10px var(--gold-glow);
+                0 0 15px var(--gold-glow),
+                0 0 30px var(--gold-glow);
             animation-name: float-gold;
         }
 
-        .white-particle {
-            background: rgba(255, 255, 255, 0.8);
+        .platinum-particle {
+            background: radial-gradient(circle at 30% 30%, var(--platinum), transparent 70%);
             filter: blur(0.5px);
-            animation-name: float-white;
+            box-shadow: 
+                0 0 10px rgba(229, 228, 226, 0.8),
+                0 0 20px rgba(229, 228, 226, 0.5);
+            animation-name: float-platinum;
+        }
+
+        .diamond-particle {
+            background: radial-gradient(circle at 30% 30%, var(--diamond), transparent 70%);
+            filter: blur(0.3px);
+            box-shadow: 
+                0 0 15px rgba(185, 242, 255, 0.8),
+                0 0 30px rgba(185, 242, 255, 0.5);
+            animation-name: float-diamond;
+        }
+
+        .ruby-particle {
+            background: radial-gradient(circle at 30% 30%, var(--ruby), transparent 70%);
+            filter: blur(0.6px);
+            box-shadow: 
+                0 0 15px rgba(224, 17, 95, 0.8),
+                0 0 30px rgba(224, 17, 95, 0.5);
+            animation-name: float-ruby;
         }
 
         .sparkle {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: var(--gold-light);
+            width: 8px;
+            height: 8px;
+            background: white;
             border-radius: 50%;
             filter: 
-                drop-shadow(0 0 5px var(--gold))
-                drop-shadow(0 0 10px var(--gold));
-            animation: sparkle 4s infinite ease-in-out;
+                drop-shadow(0 0 8px var(--gold))
+                drop-shadow(0 0 16px var(--gold));
+            animation: sparkle 3s infinite ease-in-out;
             opacity: 0;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .constellation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
             pointer-events: none;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(0.5px);
+            box-shadow: 0 0 5px white;
+            animation: twinkle 5s infinite ease-in-out;
         }
 
-        @keyframes subtlePulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.05) rotate(1deg); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        @keyframes shine {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-
-        @keyframes fade {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-
+        /* Premium Particle Animations */
         @keyframes float-gold {
             0% {
-                transform: translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh);
-                opacity: 0;
-            }
-            10% {
-                opacity: var(--opacity);
-            }
-            90% {
-                opacity: var(--opacity);
-            }
-            100% {
-                transform: translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes float-white {
-            0% {
-                transform: translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh);
+                transform: 
+                    translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh))
+                    scale(0.8);
                 opacity: 0;
             }
             20% {
                 opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid1-x) * 1vw), calc(var(--mid1-y) * 1vh))
+                    scale(1);
             }
             80% {
                 opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid2-x) * 1vw), calc(var(--mid2-y) * 1vh))
+                    scale(1);
             }
             100% {
-                transform: translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh);
+                transform: 
+                    translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh))
+                    scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-platinum {
+            0% {
+                transform: 
+                    translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh))
+                    rotate(0deg)
+                    scale(0.7);
+                opacity: 0;
+            }
+            20% {
+                opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid1-x) * 1vw), calc(var(--mid1-y) * 1vh))
+                    rotate(180deg)
+                    scale(1);
+            }
+            80% {
+                opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid2-x) * 1vw), calc(var(--mid2-y) * 1vh))
+                    rotate(360deg)
+                    scale(1);
+            }
+            100% {
+                transform: 
+                    translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh))
+                    rotate(540deg)
+                    scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-diamond {
+            0% {
+                transform: 
+                    translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh))
+                    scale(0.5);
+                opacity: 0;
+            }
+            15% {
+                opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid1-x) * 1vw), calc(var(--mid1-y) * 1vh))
+                    scale(1.2);
+            }
+            85% {
+                opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid2-x) * 1vw), calc(var(--mid2-y) * 1vh))
+                    scale(1.2);
+            }
+            100% {
+                transform: 
+                    translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh))
+                    scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-ruby {
+            0% {
+                transform: 
+                    translate(calc(var(--start-x) * 1vw), calc(var(--start-y) * 1vh))
+                    scale(0.6);
+                opacity: 0;
+            }
+            25% {
+                opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid1-x) * 1vw), calc(var(--mid1-y) * 1vh))
+                    scale(1.1);
+            }
+            75% {
+                opacity: var(--opacity);
+                transform: 
+                    translate(calc(var(--mid2-x) * 1vw), calc(var(--mid2-y) * 1vh))
+                    scale(1.1);
+            }
+            100% {
+                transform: 
+                    translate(calc(var(--end-x) * 1vw), calc(var(--end-y) * 1vh))
+                    scale(0.6);
                 opacity: 0;
             }
         }
@@ -307,44 +293,31 @@
         @keyframes sparkle {
             0%, 100% { 
                 opacity: 0; 
-                transform: scale(0.3); 
+                transform: scale(0.3) rotate(0deg); 
             }
             50% { 
                 opacity: 1; 
-                transform: scale(1.2); 
+                transform: scale(1.8) rotate(180deg); 
                 filter: 
-                    drop-shadow(0 0 8px var(--gold))
-                    drop-shadow(0 0 16px var(--gold));
+                    drop-shadow(0 0 15px var(--gold))
+                    drop-shadow(0 0 30px var(--gold));
             }
         }
 
-        .fade-out {
-            animation: fadeOut 0.8s ease-out forwards;
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
 
-        @keyframes fadeOut {
-            to { 
-                opacity: 0; 
-                transform: scale(0.95); 
-            }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .progress-container {
-                height: 6px;
-            }
-            .loading-dot {
-                width: 10px;
-                height: 10px;
-            }
-        }
+        /* Your existing animations and responsive styles */
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
     <div id="sparkles"></div>
+    <div class="constellation" id="constellation"></div>
     
+    <!-- Your loading container content -->
     <div class="loading-container" id="loading-container">
         <div class="logo-container">
             <img src="https://raw.githubusercontent.com/LKS-88/aplikasi-anekamarket/refs/heads/main/LOGO%20ANEKAMARKET.png" alt="ANEKAMARKET Logo" class="logo">
@@ -383,37 +356,31 @@
 
     <script>
         // Initialize elements
-        const loadingContainer = document.getElementById('loading-container');
-        const progressBar = document.getElementById('progress-bar');
-        const percentageElement = document.getElementById('percentage');
-        const loadingTimeElement = document.getElementById('loading-time');
         const particlesContainer = document.getElementById('particles');
         const sparklesContainer = document.getElementById('sparkles');
+        const constellationContainer = document.getElementById('constellation');
 
-        // Create particles with dynamic movement
+        // Create premium particles with complex movement
         function createParticles() {
-            // Clear existing particles
             particlesContainer.innerHTML = '';
             sparklesContainer.innerHTML = '';
 
-            // Calculate particle count based on screen size
+            // Particle count based on screen size
             const particleCount = Math.min(
-                Math.floor((window.innerWidth * window.innerHeight) / 2000),
-                150
+                Math.floor((window.innerWidth * window.innerHeight) / 800),
+                400
             );
 
-            // Create gold particles
+            // Create different particle types
             for (let i = 0; i < particleCount; i++) {
-                createParticle('gold', i);
-            }
-
-            // Create white particles
-            for (let i = 0; i < particleCount / 2; i++) {
-                createParticle('white', i);
+                const type = Math.random() > 0.75 ? 'diamond' : 
+                             Math.random() > 0.5 ? 'gold' :
+                             Math.random() > 0.25 ? 'platinum' : 'ruby';
+                createParticle(type, i);
             }
 
             // Create sparkles
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 60; i++) {
                 createSparkle(i);
             }
         }
@@ -422,37 +389,47 @@
             const particle = document.createElement('div');
             particle.classList.add('particle', `${type}-particle`);
 
-            // Size and appearance
-            const size = type === 'gold' 
-                ? Math.random() * 4 + 2 
-                : Math.random() * 2 + 1;
+            // Size based on type
+            const size = type === 'gold' ? Math.random() * 6 + 3 :
+                         type === 'platinum' ? Math.random() * 5 + 2 :
+                         type === 'diamond' ? Math.random() * 8 + 3 :
+                         Math.random() * 7 + 2;
             
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             
-            if (type === 'gold') {
-                const opacity = Math.random() * 0.5 + 0.3;
-                particle.style.opacity = opacity;
-                particle.style.setProperty('--opacity', opacity);
-            } else {
-                particle.style.opacity = Math.random() * 0.4 + 0.2;
-            }
+            // Opacity and properties
+            const opacity = type === 'gold' ? Math.random() * 0.7 + 0.3 :
+                            type === 'platinum' ? Math.random() * 0.6 + 0.2 :
+                            type === 'diamond' ? Math.random() * 0.8 + 0.3 :
+                            Math.random() * 0.7 + 0.3;
+            
+            particle.style.opacity = opacity;
+            particle.style.setProperty('--opacity', opacity);
 
             // Animation properties
-            const duration = type === 'gold' 
-                ? Math.random() * 15 + 15 
-                : Math.random() * 20 + 20;
+            const duration = Math.random() * 30 + 20;
+            const delay = Math.random() * 20;
             
-            const delay = Math.random() * 10;
-            
-            // Random movement paths
+            // Create complex curved paths
             const startX = Math.random() * 100;
-            const startY = type === 'gold' ? 100 + Math.random() * 10 : Math.random() * 120 - 10;
-            const endX = startX + (Math.random() * 40 - 20);
-            const endY = type === 'gold' ? -10 : Math.random() * 120 - 10;
+            const startY = Math.random() * 120 - 10;
+            
+            const mid1X = startX + (Math.random() * 40 - 20);
+            const mid1Y = startY + (Math.random() * 40 - 20);
+            
+            const mid2X = mid1X + (Math.random() * 40 - 20);
+            const mid2Y = mid1Y + (Math.random() * 40 - 20);
+            
+            const endX = mid2X + (Math.random() * 40 - 20);
+            const endY = mid2Y + (Math.random() * 40 - 20);
             
             particle.style.setProperty('--start-x', startX);
             particle.style.setProperty('--start-y', startY);
+            particle.style.setProperty('--mid1-x', mid1X);
+            particle.style.setProperty('--mid1-y', mid1Y);
+            particle.style.setProperty('--mid2-x', mid2X);
+            particle.style.setProperty('--mid2-y', mid2Y);
             particle.style.setProperty('--end-x', endX);
             particle.style.setProperty('--end-y', endY);
             
@@ -470,8 +447,13 @@
             sparkle.style.left = `${Math.random() * 100}%`;
             sparkle.style.top = `${Math.random() * 100}%`;
             
+            // Random size
+            const size = Math.random() * 8 + 4;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            
             // Animation
-            const duration = Math.random() * 3 + 3;
+            const duration = Math.random() * 4 + 2;
             const delay = Math.random() * 10;
             
             sparkle.style.animationDuration = `${duration}s`;
@@ -480,81 +462,35 @@
             sparklesContainer.appendChild(sparkle);
         }
 
-        // Loading animation with enhanced effects
-        const milestones = [
-            { time: 800, percent: 5, message: "Starting systems..." },
-            { time: 2000, percent: 20, message: "Loading core modules..." },
-            { time: 3500, percent: 35, message: "Initializing database..." },
-            { time: 5000, percent: 50, message: "Halfway there..." },
-            { time: 6500, percent: 65, message: "Optimizing performance..." },
-            { time: 8000, percent: 80, message: "Finalizing components..." },
-            { time: 9500, percent: 95, message: "Almost ready..." },
-            { time: 11000, percent: 100, message: "Launching application..." }
-        ];
-        
-        function startLoadingAnimation() {
-            const startTime = Date.now();
-            const totalDuration = 12000; // 12 seconds total
-            let redirecting = false;
+        function createConstellation() {
+            constellationContainer.innerHTML = '';
             
-            function update() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / totalDuration, 1);
+            // Create stars
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
                 
-                // Find current milestone
-                let currentMilestone = milestones[milestones.length - 1];
-                for (const milestone of milestones) {
-                    if (elapsed >= milestone.time) {
-                        currentMilestone = milestone;
-                    } else {
-                        break;
-                    }
-                }
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
                 
-                // Update UI
-                progressBar.style.width = `${currentMilestone.percent}%`;
-                percentageElement.textContent = `${currentMilestone.percent}%`;
-                loadingTimeElement.textContent = currentMilestone.message;
+                const delay = Math.random() * 10;
+                star.style.animationDelay = `${delay}s`;
                 
-                // Special effects at high percentages
-                if (currentMilestone.percent > 80) {
-                    progressBar.style.boxShadow = `0 0 15px rgba(58, 123, 213, 0.8)`;
-                }
-                
-                // Handle completion
-                if (currentMilestone.percent === 100 && !redirecting) {
-                    if (elapsed >= totalDuration - 800) {
-                        redirecting = true;
-                        loadingContainer.classList.add('fade-out');
-                        setTimeout(() => {
-                            window.location.href = 'https://lks-88.github.io/transaksi/';
-                        }, 800);
-                    } else {
-                        const remaining = (totalDuration - elapsed) / 1000;
-                        loadingTimeElement.textContent = `Launching in ${remaining.toFixed(1)}s...`;
-                    }
-                }
-                
-                if (!redirecting) {
-                    requestAnimationFrame(update);
-                }
+                constellationContainer.appendChild(star);
             }
-            
-            requestAnimationFrame(update);
         }
 
         // Initialize
         createParticles();
-        setTimeout(startLoadingAnimation, 500);
+        createConstellation();
         
         // Handle window resize
         window.addEventListener('resize', () => {
             createParticles();
+            createConstellation();
         });
 
-        // Preload logo image
-        const logoImage = new Image();
-        logoImage.src = 'https://raw.githubusercontent.com/LKS-88/aplikasi-anekamarket/refs/heads/main/LOGO%20ANEKAMARKET.png';
+        // Keep your existing loading animation script
     </script>
 </body>
 </html>
