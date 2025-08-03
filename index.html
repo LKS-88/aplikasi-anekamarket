@@ -99,7 +99,7 @@
             width: 0;
             background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
             border-radius: 1rem;
-            transition: width 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+            transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
             box-shadow: 0 0 1rem rgba(58, 123, 213, 0.7);
             position: relative;
             overflow: hidden;
@@ -131,6 +131,8 @@
             font-weight: 600;
             color: var(--accent);
             letter-spacing: 0.1rem;
+            min-width: 3.5rem;
+            text-align: right;
         }
 
         .loading-time {
@@ -209,6 +211,15 @@
             z-index: -1;
         }
 
+        .completion-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(105, 182, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
         @keyframes pulse {
             0% { transform: translateY(20px) scale(1); opacity: 0; }
             50% { transform: translateY(0) scale(1.05); opacity: 1; }
@@ -255,10 +266,17 @@
         @keyframes fadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
+
+        @keyframes completionPulse {
+            0% { transform: scale(1); opacity: 0; }
+            50% { transform: scale(1.5); opacity: 0.3; }
+            100% { transform: scale(2); opacity: 0; }
+        }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
+    <div class="completion-effect" id="completion-effect"></div>
     
     <!-- Decorative diamonds -->
     <div class="diamond" style="width: 10rem; height: 10rem; top: 10%; left: 5%;"></div>
@@ -275,8 +293,8 @@
         
         <div class="loading-content">
             <div class="progress-info">
+                <span class="loading-time" id="loading-time">Initializing system...</span>
                 <span class="percentage" id="percentage">0%</span>
-                <span class="loading-time" id="loading-time">Loading...</span>
             </div>
             
             <div class="progress-container">
@@ -291,7 +309,7 @@
             </div>
             
             <div class="loading-message">
-                INITIALIZING PREMIUM PLATFORM<br>
+                LOADING PREMIUM PLATFORM COMPONENTS<br>
                 PREPARING YOUR EXCLUSIVE EXPERIENCE
             </div>
         </div>
@@ -309,6 +327,7 @@
         const progressBar = document.getElementById('progress-bar');
         const percentageElement = document.getElementById('percentage');
         const loadingTimeElement = document.getElementById('loading-time');
+        const completionEffect = document.getElementById('completion-effect');
         
         // Fade in elements
         setTimeout(() => {
@@ -318,7 +337,7 @@
         
         // Create particles
         const particlesContainer = document.getElementById('particles');
-        const particleCount = 80;
+        const particleCount = 100;
         
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
@@ -343,48 +362,76 @@
             particlesContainer.appendChild(particle);
         }
         
-        // Loading animation with exact 5 second duration
+        // Predefined loading milestones (8 seconds)
+        const milestones = [
+            { time: 800, percent: 1, message: "Starting systems..." },
+            { time: 2000, percent: 25, message: "Loading core modules..." },
+            { time: 3600, percent: 45, message: "Initializing database..." },
+            { time: 4000, percent: 50, message: "Halfway there..." },
+            { time: 5200, percent: 65, message: "Optimizing performance..." },
+            { time: 6400, percent: 80, message: "Finalizing components..." },
+            { time: 8000, percent: 100, message: "Ready to launch!" }
+        ];
+        
+        // Loading animation with 8 second duration + 2 second completion delay
         const startTime = Date.now();
-        const totalDuration = 5000; // 5 seconds
+        const loadingDuration = 8000; // 8 seconds loading
+        const totalDuration = 10000; // 10 seconds total
         
         function updateLoading() {
             const currentTime = Date.now();
             const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / totalDuration, 1);
+            const progress = Math.min(elapsed / loadingDuration, 1);
+            
+            // Find current milestone
+            let currentMilestone = milestones[milestones.length - 1];
+            for (const milestone of milestones) {
+                if (elapsed >= milestone.time) {
+                    currentMilestone = milestone;
+                } else {
+                    break;
+                }
+            }
             
             // Update progress bar
-            progressBar.style.width = `${progress * 100}%`;
+            progressBar.style.width = `${currentMilestone.percent}%`;
             
             // Update percentage
-            percentageElement.textContent = `${Math.floor(progress * 100)}%`;
+            percentageElement.textContent = `${currentMilestone.percent}%`;
             
-            // Update loading time text
-            const remaining = ((totalDuration - elapsed) / 1000).toFixed(1);
-            if (remaining > 0) {
-                loadingTimeElement.textContent = `${remaining}s remaining`;
-            } else {
-                loadingTimeElement.textContent = 'Finalizing...';
+            // Update loading message
+            loadingTimeElement.textContent = currentMilestone.message;
+            
+            // Special effects at 100%
+            if (currentMilestone.percent === 100) {
+                progressBar.style.boxShadow = '0 0 2rem rgba(58, 123, 213, 1)';
+                completionEffect.style.animation = 'completionPulse 1s ease-out';
+                setTimeout(() => {
+                    completionEffect.style.animation = '';
+                }, 1000);
+                
+                // Final redirect after 2 seconds at 100%
+                if (elapsed >= loadingDuration) {
+                    const remaining = totalDuration - elapsed;
+                    if (remaining <= 0) {
+                        window.location.href = 'https://lks-88.github.io/transaksi/';
+                    } else {
+                        loadingTimeElement.textContent = `Launching in ${(remaining/1000).toFixed(1)}s...`;
+                    }
+                }
             }
             
-            // Add shimmer effect when near completion
-            if (progress > 0.9) {
-                progressBar.style.boxShadow = '0 0 1.5rem rgba(58, 123, 213, 0.9)';
-            }
-            
-            if (progress < 1) {
+            if (elapsed < totalDuration) {
                 requestAnimationFrame(updateLoading);
             } else {
-                // Redirect after completion
-                setTimeout(() => {
-                    window.location.href = 'https://lks-88.github.io/transaksi/';
-                }, 500);
+                window.location.href = 'https://lks-88.github.io/transaksi/';
             }
         }
         
         // Start the loading animation
         setTimeout(() => {
             requestAnimationFrame(updateLoading);
-        }, 1500);
+        }, 500);
         
         // Text animation - letter by letter
         const text = 'ANEKAMARKET';
